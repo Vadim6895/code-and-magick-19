@@ -180,7 +180,36 @@
     <p class="setup-similar-label">Петр Петров</p>
   </div>
 </template>
+<script>
+  var fireballSize = 22;
+  var wizardSpeed = 3;
+  var wizardWidth = 70;
+  var proportion = 1.337;
 
+  var getFireballSpeed = function(left) {
+    if (left) {
+    return 5;
+    }
+    else {
+      return 2;
+    }
+  }
+
+  var getWizardHeight = function() {
+    var wizardProportion = proportion * wizardWidth;
+    return wizardProportion;
+  }
+
+  var getWizardX = function(width) {
+    return width / 2 - wizardWidth;
+  }
+
+  var getWizardY = function(height) {
+    return height / 3 * 2 - getWizardHeight(); /*такая запись всегда будет считать две трети и вычитать высоту мага, если ориентироваться на ноги*/
+  }
+
+</script>
+<script src="js/stat.js"></script>
 <script src="js/game.js"></script>
 
 </body>
