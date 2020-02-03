@@ -14,7 +14,6 @@ var GAP = 10;
 var TEXT_WIDTH = 50;
 var BAR_WIDTH = 50;
 var barHeight = CLOUD_HEIGHT - GAP - TEXT_WIDTH - GAP - TEXT_WIDTH;
-
 var TEXT_COLOR = '#000';
 
 
