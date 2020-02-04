@@ -16,74 +16,61 @@ var BAR_WIDTH = 50;
 var barHeight = CLOUD_HEIGHT - GAP - TEXT_WIDTH - GAP - TEXT_WIDTH;
 var TEXT_COLOR = '#000';
 
-
 var renderCloud = function (ctx, x, y, color) {
   ctx.fillStyle = color;
   ctx.fillRect(x, y, CLOUD_WIDTH, CLOUD_HEIGHT);
 };
 
 var getMaxElementTime = function (array) {
-  var MaxElementTime = array[0];
+  var maxElementTime = array[0];
 
   for (var i = 0; i < array.length; i++) {
-    if (array[i] > MaxElementTime) {
-      MaxElementTime = array[i];
+    if (array[i] > maxElementTime) {
+      maxElementTime = array[i];
     }
   }
-  return MaxElementTime;
+  return maxElementTime;
 };
+
+var victorymessage = function (ctx) {
+  ctx.font = '16px PT Mono';
+  ctx.textBaseline = 'hanging';
+  ctx.fillStyle = TEXT_COLOR;
+  ctx.fillText('Ура вы победили', SHADOW_CLOUD_X, TEXT_WIDTH - GAP);
+  ctx.fillText('Список результатов:', SHADOW_CLOUD_X, TEXT_WIDTH + GAP);
+};
+
+function getRandomInt(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min)) + min;
+}
 
 window.renderStatistics = function (ctx, players, times) {
 
   renderCloud(ctx, SHADOW_CLOUD_X, SHADOW_CLOUD_Y, SHADOW_CLOUD_COLOR);
   renderCloud(ctx, CLOUD_X, CLOUD_Y, CLOUD_COLOR);
 
-  ctx.font = '16px PT Mono';
-  ctx.textBaseline = 'hanging';
-  ctx.fillStyle = TEXT_COLOR;
-  ctx.fillText('Ура вы победили', SHADOW_CLOUD_X, TEXT_WIDTH - GAP);
-  ctx.fillText('Список результатов:', SHADOW_CLOUD_X, TEXT_WIDTH + GAP);
+  victorymessage(ctx);
 
   var maxTime = getMaxElementTime(times);
-  var playerInddex = 1;
+  var saturation;
 
   for (var i = 0; i < players.length; i++) {
-    ctx.fillStyle = TEXT_COLOR;
-    ctx.fillText(players[i], (CLOUD_X) * playerInddex + BAR_WIDTH, CLOUD_HEIGHT - GAP);
+    var actualBarHeight = (barHeight * times[i]) / maxTime;
 
-    ctx.fillStyle = 'hsl(235, 87%, ' + HslVariable + '%)';
-    if (i === 0) {
+    ctx.fillStyle = TEXT_COLOR;
+    ctx.fillText(players[i], (CLOUD_X) * (i + 1) + BAR_WIDTH, CLOUD_HEIGHT - GAP);
+
+    ctx.fillStyle = 'hsl(235, ' + saturation + '%, 43%)';
+    if (players[i] === 'Вы') {
       ctx.fillStyle = 'rgba(255, 0, 0, 1)';
     }
-    ctx.fillRect((CLOUD_X) * playerInddex + TEXT_WIDTH, CLOUD_X + (barHeight - (barHeight * times[i]) / maxTime), BAR_WIDTH, (barHeight * times[i]) / maxTime);
+    ctx.fillRect((CLOUD_X) * (i + 1) + TEXT_WIDTH, CLOUD_X + (barHeight - actualBarHeight), BAR_WIDTH, actualBarHeight);
 
     ctx.fillStyle = TEXT_COLOR;
-    ctx.fillText(Math.floor(times[i]), (CLOUD_X) * playerInddex + BAR_WIDTH, CLOUD_X - (GAP) * 2 + (barHeight - (barHeight * times[i]) / maxTime));
+    ctx.fillText(Math.floor(times[i]), (CLOUD_X) * (i + 1) + BAR_WIDTH, CLOUD_X - (GAP) * 2 + (barHeight - actualBarHeight));
 
-    var HslVariable = Math.ceil((times[i] / 100 * 2));
-    playerInddex++;
+    saturation = getRandomInt(0, 100);
   }
 };
-/*  в целом оно работает), немного промахнулся с общей шириной*/
-
-
-/*  var playerInddex = 1;    Удалю чуть позже, оставил на всякий
-  var playerName = "Вы";
-  ctx.fillStyle = '#000';
-  ctx.fillText(playerName, (CLOUD_X) * playerInddex + BAR_WIDTH, CLOUD_HEIGHT - GAP);
-  ctx.fillRect((CLOUD_X) * 1 + TEXT_WIDTH, CLOUD_X, BAR_WIDTH, CLOUD_X + TEXT_WIDTH);
-
-  var playerInddex = 2;
-  var playerName = "Иван";
-  ctx.fillText(playerName, (CLOUD_X) * playerInddex + BAR_WIDTH, CLOUD_HEIGHT - GAP);
-  ctx.fillRect((CLOUD_X) * 2 + TEXT_WIDTH, CLOUD_X, BAR_WIDTH, CLOUD_X + TEXT_WIDTH);
-
-  var playerInddex = 3;
-  var playerName = "Юлия"
-  ctx.fillText(playerName, (CLOUD_X) * playerInddex + BAR_WIDTH, CLOUD_HEIGHT - GAP);
-  ctx.fillRect((CLOUD_X) * 3 + TEXT_WIDTH, CLOUD_X, BAR_WIDTH, CLOUD_X + TEXT_WIDTH);
-
-  var playerInddex = 4;
-  var playerName = "Максим";
-  ctx.fillText(playerName, (CLOUD_X) * playerInddex + BAR_WIDTH, CLOUD_HEIGHT - GAP);
-  ctx.fillRect((CLOUD_X) * 4 + TEXT_WIDTH, CLOUD_X, BAR_WIDTH, CLOUD_X + TEXT_WIDTH);*/
