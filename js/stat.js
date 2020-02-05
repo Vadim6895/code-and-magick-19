@@ -54,7 +54,7 @@ window.renderStatistics = function (ctx, players, times) {
   victorymessage(ctx);
 
   var maxTime = getMaxElementTime(times);
-  saturation = getRandomInt(0, 100);
+  var saturation = getRandomInt(0, 100);
 
   for (var i = 0; i < players.length; i++) {
     var actualBarHeight = (barHeight * times[i]) / maxTime;
