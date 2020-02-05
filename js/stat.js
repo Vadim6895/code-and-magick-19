@@ -54,10 +54,11 @@ window.renderStatistics = function (ctx, players, times) {
   victorymessage(ctx);
 
   var maxTime = getMaxElementTime(times);
-  var saturation = getRandomInt(0, 100);
+  var saturation;
 
   for (var i = 0; i < players.length; i++) {
     var actualBarHeight = (barHeight * times[i]) / maxTime;
+    saturation = getRandomInt(0, 100);
 
     ctx.fillStyle = TEXT_COLOR;
     ctx.fillText(players[i], (CLOUD_X) * (i + 1) + BAR_WIDTH, CLOUD_HEIGHT - GAP);
@@ -70,7 +71,5 @@ window.renderStatistics = function (ctx, players, times) {
 
     ctx.fillStyle = TEXT_COLOR;
     ctx.fillText(Math.floor(times[i]), (CLOUD_X) * (i + 1) + BAR_WIDTH, CLOUD_X - (GAP) * 2 + (barHeight - actualBarHeight));
-
-    saturation = getRandomInt(0, 100);
   }
 };
